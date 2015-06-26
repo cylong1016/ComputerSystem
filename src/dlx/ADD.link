@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DLXObject>
+<Data>
+	<DataTable Base='12288' Length='72'>
+		<Symbol name='SAVER31' isGlobal='False' isExtern='False' >0,1,2,3</Symbol>
+		<Symbol name='ASCIIBUFF' isGlobal='False' isExtern='False' >4,5,6,7,8,9,10,11,12,13,14</Symbol>
+		<Symbol name='IN' isGlobal='False' isExtern='False' >15</Symbol>
+		<Symbol name='OUT' isGlobal='False' isExtern='False' >38</Symbol>
+		<Symbol name='OUTDEC' isGlobal='False' isExtern='False' >55</Symbol>
+	</DataTable>
+	<DataContent>000000000000000000000000000000506C6561736520696E7075742061206E756D6265723A000A486578206164646974696F6E3A2020000A4F7220446563696D616C3A2020202000</DataContent>
+</Data>
+<Text>
+
+	<TextTable Base='1073741824' Length='968'>
+		<Symbol name='MAIN' isGlobal='True' isExtern='False' >0</Symbol>
+		<Symbol name='ATOB' isGlobal='False' isExtern='False' >256</Symbol>
+		<Symbol name='DECLOOP' isGlobal='False' isExtern='False' >340</Symbol>
+		<Symbol name='SKIP10' isGlobal='False' isExtern='False' >376</Symbol>
+		<Symbol name='HEXLOOP' isGlobal='False' isExtern='False' >392</Symbol>
+		<Symbol name='LOWER' isGlobal='False' isExtern='False' >448</Symbol>
+		<Symbol name='NUM' isGlobal='False' isExtern='False' >464</Symbol>
+		<Symbol name='UPPER' isGlobal='False' isExtern='False' >480</Symbol>
+		<Symbol name='FIN' isGlobal='False' isExtern='False' >496</Symbol>
+		<Symbol name='BTOA' isGlobal='False' isExtern='False' >532</Symbol>
+		<Symbol name='LOOPSTACK' isGlobal='False' isExtern='False' >548</Symbol>
+		<Symbol name='LETTER' isGlobal='False' isExtern='False' >568</Symbol>
+		<Symbol name='SAVE' isGlobal='False' isExtern='False' >572</Symbol>
+		<Symbol name='OUT2' isGlobal='False' isExtern='False' >588</Symbol>
+		<Symbol name='LOOPOUT' isGlobal='False' isExtern='False' >624</Symbol>
+		<Symbol name='INPUT' isGlobal='False' isExtern='False' >656</Symbol>
+		<Symbol name='ZEROLOOP' isGlobal='False' isExtern='False' >716</Symbol>
+		<Symbol name='LOOPIN' isGlobal='False' isExtern='False' >732</Symbol>
+		<Symbol name='BS' isGlobal='False' isExtern='False' >768</Symbol>
+		<Symbol name='END' isGlobal='False' isExtern='False' >800</Symbol>
+		<Symbol name='BTOADEC' isGlobal='False' isExtern='False' >844</Symbol>
+		<Symbol name='LOOP10' isGlobal='False' isExtern='False' >880</Symbol>
+		<Symbol name='LOOPDIV' isGlobal='False' isExtern='False' >896</Symbol>
+		<Symbol name='STACK10' isGlobal='False' isExtern='False' >928</Symbol>
+		<Symbol name='SAVE10' isGlobal='False' isExtern='False' >944</Symbol>
+	</TextTable>
+	<TextContent>1 4 0 IN 0 35 #8 1 2 0 ASCIIBUFF 0 32 INPUT 32 ATOB 1 5 4 #0 1 4 0 IN 0 35 #8 32 INPUT 32 ATOB 0 5 4 5 1 4 0 OUT 0 35 #8 32 BTOA 1 4 0 ASCIIBUFF 0 35 #8 1 4 0 OUTDEC 0 35 #8 32 BTOADEC 1 4 0 ASCIIBUFF 0 35 #8 35 #0 28 31 0 SAVER31 0 1 4 0 #0 1 2 0 ASCIIBUFF 0 25 1 2 #0 21 3 1 #88 30 3 HEXLOOP 21 3 1 #120 30 3 HEXLOOP 17 3 1 #48 30 3 FIN 19 3 1 #57 29 3 FIN 3 1 1 #48 29 4 SKIP10 11 3 4 #3 11 4 4 #1 0 4 4 3 0 4 1 4 1 2 2 #1 25 1 2 #0 31 DECLOOP 1 2 2 #1 25 1 2 #0 17 3 1 #48 30 3 FIN 19 3 1 #57 30 3 NUM 19 3 1 #65 30 3 FIN 17 3 1 #70 30 3 UPPER 17 3 1 #97 30 3 FIN 19 3 1 #102 29 3 FIN 3 1 1 #87 11 4 4 #4 0 4 4 1 31 HEXLOOP 3 1 1 #48 11 4 4 #4 0 4 4 1 31 HEXLOOP 3 1 1 #55 11 4 4 #4 0 4 4 1 31 HEXLOOP 27 31 0 SAVER31 0 33 31 3 29 29 #4 28 5 29 #0 3 29 29 #1 26 0 29 #0 5 1 5 #15 19 3 1 #9 29 3 LETTER 1 1 1 #48 31 SAVE 1 1 1 #55 3 29 29 #1 26 1 29 #0 13 5 5 #4 30 5 LOOPSTACK 1 2 0 ASCIIBUFF 0 1 1 0 #120 26 1 2 #0 1 2 2 #1 25 1 29 #0 1 29 29 #1 26 1 2 #0 30 1 LOOPOUT 27 5 29 #0 1 29 29 #4 33 31 28 31 0 SAVER31 0 1 2 0 ASCIIBUFF 0 35 #6 35 #7 21 1 4 #48 30 1 ZEROLOOP 21 1 4 #10 30 1 END 21 1 4 #8 30 1 BS 26 4 2 #0 1 2 2 #1 35 #6 35 #7 31 LOOPIN 1 2 0 ASCIIBUFF 0 31 ZEROLOOP 1 4 0 #0 26 4 2 #0 27 31 0 SAVER31 0 33 31 1 2 0 ASCIIBUFF 0 3 29 29 #1 26 0 29 #0 17 1 5 #10 30 1 STACK10 1 4 5 #0 1 5 0 #0 3 4 4 #10 1 5 5 #1 17 1 4 #10 29 1 LOOPDIV 1 4 4 #48 3 29 29 #1 26 4 29 #0 31 LOOP10 29 5 SAVE10 1 5 5 #48 26 5 2 #0 1 2 2 #1 25 5 29 #0 1 29 29 #1 26 5 2 #0 1 2 2 #1 30 5 SAVE10 33 31 </TextContent>
+</Text>
+</DLXObject>

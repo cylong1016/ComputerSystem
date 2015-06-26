@@ -1,0 +1,31 @@
+            .DATA	x30000000
+LETTER :    .ASCII  "dfgfdFDS{}{~[]GrDSFE"		;需要转换的字符
+            .BYTE   x04
+            .TEXT   40000000
+            .GLOBAL  MAIN
+MAIN :      ADDI    R1, R0, LETTER		;R1为字符指针
+            LB      R3, 0(R1)		;R3存储字符
+LOOP :      SEQI    R4, R3, x04
+            BNEZ    R4, EXIT
+            SLEI    R2, R3, x61
+            BNEZ    R2, SAVE
+            SLEI    R2, R3, x7A
+            BEQZ    R2, SAVE
+            JAL     TOUPPER
+		;存回原文档，然后输出，并获得下一个字符
+SAVE :      SB      0(R1), R3
+            ADDI    R4, R3, #0
+            TRAP    x07
+            ADDI    R1, R1, #1
+            LB      R3, 0(R1)
+            J       LOOP
+
+EXIT :      ADDI    R4, R0, #0
+            ADDI    R1, R0, #0
+            ADDI    R2, R0, #0
+            ADDI    R3, R0, #0
+            ADDI    R4, R0, #0
+            TRAP    x00
+		;小写→大写
+TOUPPER :   SUBI    R3, R3, x20
+            JR      R31

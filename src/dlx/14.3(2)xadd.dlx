@@ -1,0 +1,27 @@
+            .DATA
+            .TEXT   
+            .GLOBAL  MAIN
+MAIN :      TRAP    x09
+            SLEI    R1, R4, x39
+            BEQZ    R1, TASK1
+            SUBI    R2, R4, x30
+            J       INPUT2
+
+TASK1 :     SUBI    R2, R4, x37
+            J       INPUT2
+INPUT2 :    TRAP    x09
+            SLEI    R1, R4, x39
+            BEQZ    R1, TASK2
+            SUBI    R3, R4, x30
+            J       SUM
+TASK2 :     SUBI    R3, R4, x37
+            J       SUM
+SUM :       ADD     R4, R3, R2
+            SLEI    R1, R4, #9
+            BEQZ    R1, TASK3
+            ADDI    R4, R4, x30
+            J       OUTPUT
+
+TASK3 :     ADDI    R4, R4, x37
+OUTPUT :    TRAP    x07
+            TRAP    x00

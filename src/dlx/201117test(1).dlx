@@ -1,0 +1,29 @@
+            .DATA	x30000000
+STRING1 :   .ASCIIZ "abcdefg"
+            .ALIGN  5
+STRING2 :   .ASCIIZ "abcdefga"
+
+            .TEXT   x40000000
+            .GLOBAL  MAIN
+MAIN :      ADDI    R7, R0, STRING1
+            ADDI    R8, R0, STRING2
+LOOP :      LB      R1, 0(R7)		;R1´æ´¢µÚÒ»¸ö×Ö·û´®
+            LB      R6, 0(R8)		;R6´æ´¢µÚ¶þ¸ö×Ö·û´®
+            SEQI    R3, R6, #0
+            BNEZ    R3, OUTPUT
+            SEQ     R3, R1, R6
+            BEQZ    R3, OUTPUT
+            ADDI    R7, R7, #1
+            ADDI    R8, R8, #1
+            J       LOOP
+OUTPUT :    SEQ     R3, R1, R6
+            BNEZ    R3, PRINT0
+            SLT     R3, R1, R6
+            BEQZ    R3, PRINT1
+            J       PRINT2
+PRINT0 :    ADDI    R2, R0, #0
+            TRAP    x00
+PRINT1 :    ADDI    R2, R0, #1
+            TRAP    x00
+PRINT2 :    ADDI    R2, R0, #-1
+            TRAP    x00

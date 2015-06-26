@@ -1,0 +1,29 @@
+            .DATA	x30000000
+            .ASCII  "hdjfheaaaaawjbfjgsaaaajdkeh"
+            .BYTE   x04
+            .ALIGN  2
+
+            .TEXT   x40000000
+            .GLOBAL  MAIN
+MAIN :      TRAP    x09		;从键盘读取一个字符
+            ADDI    R5, R4, #0		;R5←R4
+            ADDI    R4, R0, #0		;R4清零
+            LHI     R3, x3000
+            LB      R1, 0(R3)
+		;检测文档是否到达末尾
+TEST :      SEQI    R2, R1, x04
+            BNEZ    R2, OUTPUT
+		;统计字符出现的次数，并存储到R4中
+            SEQ     R6, R5, R1
+            BEQZ    R6, NEXTCHAR
+            ADDI    R4, R4, #1
+		;获取下一个字符
+NEXTCHAR :  ADDI    R3, R3, #1
+            LB      R1, 0(R3)
+            J       TEST
+
+OUTPUT :    ADDI    R4, R4, x30
+            TRAP    x07
+
+
+            TRAP    x00

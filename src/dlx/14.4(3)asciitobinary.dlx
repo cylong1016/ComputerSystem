@@ -1,0 +1,93 @@
+            .DATA	x00003000
+NUMBER :    .SPACE  100
+PROMPT :    .ASCII  "Please input a number! Such as (12345 or x12345)"
+            .WORD   x0A000000
+
+            .TEXT   x40000000
+            .GLOBAL  MAIN
+MAIN :      ADDI    R20, R0, #0		;R20用来存储结果
+            ADDI    R5, R0, #1		;R5用来存储位数
+            ADDI    R2, R0, NUMBER		;R2为存储数字地址指针
+            ADDI    R4, R0, PROMPT
+            TRAP    x08
+
+LOOP1 :     TRAP    x06
+            SEQI    R1, R4, x0A		;R1用来判断
+            BNEZ    R1, ASCIITOBINARY1
+            SEQI    R1, R4, x78
+            BNEZ    R1, TASK1
+            SLTI    R1, R4, x30
+            BNEZ    R1, ASCIITOBINARY1
+            SLEI    R1, R4, x39
+            BEQZ    R1, ASCIITOBINARY1
+            TRAP    x07
+            SB      0(R2), R4
+            ADDI    R2, R2, #1
+            ADDI    R5, R5, #1
+            J       LOOP1
+
+ASCIITOBINARY1 :SUBI    R5, R5, #1
+            SUB     R6, R2, R5
+            LB      R7, 0(R6)
+            SUBI    R7, R7, x30
+            ADDI    R20, R7, #0
+            SLEI    R1, R5, #1
+            BNEZ    R1, EXIT
+
+LOOP2 :     SUBI    R5, R5, #1
+            SUB     R6, R2, R5
+            LB      R7, 0(R6)
+            SUBI    R7, R7, x30
+            ADDI    R21, R20, #0
+            SLLI    R21, R21, #1
+            SLLI    R20, R20, #3
+            ADD     R20, R20, R21
+            ADD     R20, R20, R7
+            SLEI    R1, R5, #1
+            BNEZ    R1, EXIT
+            J       LOOP2
+
+TASK1 :     TRAP    x07
+LOOP4 :     TRAP    x06
+            SEQI    R1, R4, x0A
+            BNEZ    R1, ASCIITOBINARY2
+            SLEI    R1, R4, x66
+            BEQZ    R1, ASCIITOBINARY2
+            SLEI    R1, R4, x46
+            BEQZ    R1, UPPER
+            SLEI    R1, R4, x40
+            BEQZ    R1, SAVELETTER
+            TRAP    x07
+            SUBI    R4, R4, x30
+            SB      0(R2), R4
+            ADDI    R2, R2, #1
+            ADDI    R5, R5, #1
+            J       LOOP4
+
+UPPER :     SUBI    R4, R4, x20
+            J       SAVELETTER
+
+SAVELETTER :TRAP    x07
+            SUBI    R4, R4, x37
+            SB      0(R2), R4
+            ADDI    R2, R2, #1
+            ADDI    R5, R5, #1
+            J       LOOP4
+
+ASCIITOBINARY2 :SUBI    R5, R5, #1
+            SUB     R6, R2, R5
+            LB      R7, 0(R6)
+            ADDI    R20, R7, #0
+            SLEI    R1, R5, #1
+            BNEZ    R1, EXIT
+
+LOOP3 :     SUBI    R5, R5, #1
+            SUB     R6, R2, R5
+            LB      R7, 0(R6)
+            SLLI    R20, R20, #4
+            ADD     R20, R20, R7
+            SLEI    R1, R5, #1
+            BNEZ    R1, EXIT
+            J       LOOP3
+
+EXIT :      TRAP    x00

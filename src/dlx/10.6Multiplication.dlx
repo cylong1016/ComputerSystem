@@ -1,0 +1,28 @@
+            .DATA	x30000000
+            .TEXT   x40000000
+            .GLOBAL  MAIN
+MAIN :      ADDI    R8, R0, #0
+            ADDI    R8, R8, #-6		;将#0改为一个整数
+            ADDI    R13, R8, #0
+            ADDI    R9, R9, #0
+            ADDI    R9, R9, #4		;将#0改为一个整数
+            ADDI    R14, R9, #0
+            ADDI    R12, R0, #0		;清空，保存R9的某一位
+            ADDI    R10, R0, #0		;清空，保存结果
+            ADDI    R11, R0, #32		;存储数字的位数
+            ANDI    R12, R14, #1
+            BEQZ    R12, TEXT1
+            ADDI    R10, R13, #0
+            J       AGAIN
+TEXT1 :     ANDI    R10, R13, #0
+AGAIN :     SUBI    R11, R11, #1
+            BEQZ    R11, EXIT
+            SRAI    R14, R14, #1
+            SLLI    R13, R13, #1
+            ANDI    R12, R14, #1
+            BEQZ    R12, TEXT2
+            ADD     R10, R10, R13
+            J       AGAIN
+TEXT2 :     ADDI    R10, R10, #0
+            J       AGAIN
+EXIT :      TRAP    #00

@@ -1,0 +1,198 @@
+            .DATA	x00003000
+SAVER31 :   .SPACE  4
+ASCIIBUFF : .SPACE  11
+IN :        .ASCIIZ "Please input a number:"
+OUT :       .BYTE   x0a
+            .ASCIIZ "Hex addition:  "
+OUTDEC :    .BYTE   x0a
+            .ASCIIZ "Or Decimal:    "
+
+            .TEXT   x40000000
+            .GLOBAL  MAIN
+MAIN :      ADDI    R4, R0, IN
+            TRAP    x08
+            ADDI    R2, R0, ASCIIBUFF
+            JAL     INPUT
+            JAL     ATOB
+            ADDI    R5, R4, #0
+
+            ADDI    R4, R0, IN
+            TRAP    x08
+            JAL     INPUT
+            JAL     ATOB
+            ADD     R5, R4, R5
+
+            ADDI    R4, R0, OUT
+            TRAP    x08
+            JAL     BTOA
+            ADDI    R4, R0, ASCIIBUFF
+            TRAP    x08
+            ADDI    R4, R0, OUTDEC
+            TRAP    x08
+            JAL     BTOADEC
+            ADDI    R4, R0, ASCIIBUFF
+            TRAP    x08
+
+            TRAP    x00
+
+
+
+
+
+
+ATOB :      SW      SAVER31(R0), R31
+            ADDI    R4, R0, #0
+            ADDI    R2, R0, ASCIIBUFF
+
+            LB      R1, 0(R2)
+            SEQI    R3, R1, x58
+            BNEZ    R3, HEXLOOP
+            SEQI    R3, R1, x78
+            BNEZ    R3, HEXLOOP
+
+DECLOOP :   SLTI    R3, R1, x30
+            BNEZ    R3, FIN
+            SLEI    R3, R1, x39
+            BEQZ    R3, FIN
+            SUBI    R1, R1, x30
+
+            BEQZ    R4, SKIP10
+            SLLI    R3, R4, #3
+            SLLI    R4, R4, #1
+            ADD     R4, R4, R3
+
+SKIP10 :    ADD     R4, R1, R4
+            ADDI    R2, R2, #1
+            LB      R1, 0(R2)
+            J       DECLOOP
+
+HEXLOOP :   ADDI    R2, R2, #1
+            LB      R1, 0(R2)
+            SLTI    R3, R1, x30
+            BNEZ    R3, FIN
+            SLEI    R3, R1, x39
+            BNEZ    R3, NUM
+            SLEI    R3, R1, x41
+            BNEZ    R3, FIN
+            SLTI    R3, R1, x46
+            BNEZ    R3, UPPER
+            SLTI    R3, R1, x61
+            BNEZ    R3, FIN
+            SLEI    R3, R1, x66
+            BEQZ    R3, FIN
+
+LOWER :     SUBI    R1, R1, x57
+            SLLI    R4, R4, #4
+            ADD     R4, R4, R1
+            J       HEXLOOP
+
+NUM :       SUBI    R1, R1, x30
+            SLLI    R4, R4, #4
+            ADD     R4, R4, R1
+            J       HEXLOOP
+
+UPPER :     SUBI    R1, R1, x37
+            SLLI    R4, R4, #4
+            ADD     R4, R4, R1
+            J       HEXLOOP
+
+FIN :       LW      R31, SAVER31(R0)
+            JR      R31
+
+
+
+BTOA :      SUBI    R29, R29, #4
+            SW      0(R29), R5
+            SUBI    R29, R29, #1
+            SB      0(R29), R0
+
+LOOPSTACK : ANDI    R1, R5, xf
+            SLEI    R3, R1, #9
+            BEQZ    R3, LETTER
+            ADDI    R1, R1, x30
+            J       SAVE
+
+LETTER :    ADDI    R1, R1, x37
+
+SAVE :      SUBI    R29, R29, #1
+            SB      0(R29), R1
+
+            SRLI    R5, R5, #4
+            BNEZ    R5, LOOPSTACK
+
+OUT2 :      ADDI    R2, R0, ASCIIBUFF
+            ADDI    R1, R0, x78
+            SB      0(R2), R1
+
+LOOPOUT :   ADDI    R2, R2, #1
+            LB      R1, 0(R29)
+            ADDI    R29, R29, #1
+            SB      0(R2), R1
+            BNEZ    R1, LOOPOUT
+
+            LW      R5, 0(R29)
+            ADDI    R29, R29, #4
+            JR      R31
+
+
+
+INPUT :     SW      SAVER31(R0), R31
+            ADDI    R2, R0, ASCIIBUFF
+
+ZEROLOOP :  TRAP    x06
+            TRAP    x07
+            SEQI    R1, R4, x30
+            BNEZ    R1, ZEROLOOP
+
+LOOPIN :    SEQI    R1, R4, x0a
+            BNEZ    R1, END
+            SEQI    R1, R4, x08
+            BNEZ    R1, BS
+            SB      0(R2), R4
+            ADDI    R2, R2, #1
+            TRAP    x06
+            TRAP    x07
+            J       LOOPIN
+
+BS :        ADDI    R2, R0, ASCIIBUFF
+            J       ZEROLOOP
+
+END :       ADDI    R4, R0, #0
+            SB      0(R2), R4
+            LW      R31, SAVER31(R0)
+            JR      R31
+
+
+
+
+BTOADEC :   ADDI    R2, R0, ASCIIBUFF
+            SUBI    R29, R29, #1
+            SB      0(R29), R0
+
+LOOP10 :    SLTI    R1, R5, #10
+            BNEZ    R1, STACK10
+            ADDI    R4, R5, #0
+            ADDI    R5, R0, #0
+
+LOOPDIV :   SUBI    R4, R4, #10
+            ADDI    R5, R5, #1
+            SLTI    R1, R4, #10
+            BEQZ    R1, LOOPDIV
+
+            ADDI    R4, R4, x30
+            SUBI    R29, R29, #1
+            SB      0(R29), R4
+            J       LOOP10
+
+STACK10 :   BEQZ    R5, SAVE10
+            ADDI    R5, R5, x30
+            SB      0(R2), R5
+            ADDI    R2, R2, #1
+
+SAVE10 :    LB      R5, 0(R29)
+            ADDI    R29, R29, #1
+            SB      0(R2), R5
+            ADDI    R2, R2, #1
+            BNEZ    R5, SAVE10
+
+            JR      R31

@@ -1,0 +1,18 @@
+            .DATA	x00030000
+
+            .TEXT   x00040000
+            .GLOBAL  MAIN
+MAIN :      ADDI    R8, R0, #1342		;存储被除数
+            ADDI    R9, R0, #11		;存储除数
+            ADDI    R13, R9, #0		;R13←R9
+            ADDI    R10, R0, #0		;初始化R10
+AGAIN :     SLE     R1, R13, R8
+            BEQZ    R1, TEXT2
+            ADDI    R10, R10, #1
+            ADD     R13, R13, R9
+            J       AGAIN
+TEXT2 :     SUB     R11, R13, R8
+            SUB     R11, R9, R11
+            ANDI    R13, R13, #0
+
+            TRAP    x00

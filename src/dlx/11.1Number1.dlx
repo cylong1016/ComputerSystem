@@ -1,0 +1,21 @@
+            .DATA	x00030000
+            .TEXT   x00040000
+            .GLOBAL  MAIN
+MAIN :      ADDI    R1, R0, #3		;值存储到R1中
+            ADDI    R3, R1, #0		;将R1中的值保存到R3中
+            ADDI    R2, R0, #0		;初始化R2，存储1的个数
+            ADDI    R5, R0, #0
+            ADDI    R5, R5, #32
+AGAIN :     BEQZ    R5, EXIT
+            ANDI    R6, R3, #1
+            SRAI    R3, R3, #1
+            SUBI    R5, R5, #1
+            BEQZ    R6, TEXT1
+            ADDI    R2, R2, #1
+            J       AGAIN
+TEXT1 :     ADDI    R2, R2, #0
+            J       AGAIN
+EXIT :      ADDI    R3, R0, #0
+            ADDI    R5, R0, #0
+            ADDI    R6, R0, #0
+            TRAP    x00

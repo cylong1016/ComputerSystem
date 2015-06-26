@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DLXObject>
+<Data>
+	<DataTable Base='805306368' Length='41'>
+		<Symbol name='STRING1' isGlobal='False' isExtern='False' >0</Symbol>
+		<Symbol name='STRING2' isGlobal='False' isExtern='False' >32</Symbol>
+	</DataTable>
+	<DataContent>6162636465666700000000000000000000000000000000000000000000000000616263646566676100</DataContent>
+</Data>
+<Text>
+
+	<TextTable Base='1073741824' Length='136'>
+		<Symbol name='MAIN' isGlobal='True' isExtern='False' >0</Symbol>
+		<Symbol name='LOOP' isGlobal='False' isExtern='False' >56</Symbol>
+		<Symbol name='OUTPUT' isGlobal='False' isExtern='False' >92</Symbol>
+		<Symbol name='PRINT0' isGlobal='False' isExtern='False' >112</Symbol>
+		<Symbol name='PRINT1' isGlobal='False' isExtern='False' >120</Symbol>
+		<Symbol name='PRINT2' isGlobal='False' isExtern='False' >128</Symbol>
+	</TextTable>
+	<TextContent>1 7 0 STRING1 0 1 8 0 STRING2 0 25 1 7 #0 25 6 8 #0 21 3 6 #0 30 3 OUTPUT 20 3 1 6 29 3 OUTPUT 1 7 7 #1 1 8 8 #1 31 LOOP 20 3 1 6 30 3 PRINT0 16 3 1 6 29 3 PRINT1 31 PRINT2 1 2 0 #0 35 #0 1 2 0 #1 35 #0 1 2 0 #-1 35 #0 </TextContent>
+</Text>
+</DLXObject>

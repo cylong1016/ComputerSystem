@@ -1,0 +1,18 @@
+            .DATA
+NUMBERS :   .WORD   #1, #2, #3, #-2, #-3, #2, #3, #4, #5, #-5
+SUM :       .SPACE  4
+            .BYTE   x00
+
+            .TEXT   
+            .GLOBAL  MAIN
+MAIN :      ADDI    R1, R0, NUMBERS
+            ADDI    R3, R0, #0
+            ADDI    R2, R0, #10
+
+AGAIN :     BEQZ    R2, EXIT
+            LW      R4, 0(R1)
+            ADD     R3, R3, R4
+            ADDI    R1, R1, #4
+            SUBI    R2, R2, #1
+            J       AGAIN
+EXIT :      TRAP    x00

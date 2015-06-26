@@ -1,0 +1,32 @@
+            .DATA
+            .TEXT   
+            .GLOBAL  MAIN
+MAIN :      ADDI    R2, R0, #1		;赋值R2=1
+            ADDI    R3, R0, #1		;赋值R3=1
+            TRAP    x09
+            SUBI    R4, R4, x30
+            SEQI    R5, R4, #0
+            BNEZ    R5, TASK1
+            SEQI    R5, R4, #1
+            BNEZ    R5, TASK2
+            J       TASK3
+
+TASK1 :     ADDI    R1, R2, #0		;将值赋给R1
+            J       EXIT
+TASK2 :     ADDI    R1, R3, #0		;将值赋给R1
+            J       EXIT
+
+		;计算结果
+TASK3 :     SUBI    R4, R4, #2
+AGAIN :     ADD     R1, R2, R3		;将结果存入R1中
+            BEQZ    R4, EXIT
+            SUBI    R4, R4, #1
+            ADDI    R2, R3, #0
+            ADDI    R3, R1, #0
+            J       AGAIN
+		;恢复R2，R3，R4，R5的值
+EXIT :      ADDI    R5, R0, #0
+            ADDI    R4, R0, #0
+            ADDI    R2, R0, #1
+            ADDI    R3, R0, #1
+            TRAP    x00

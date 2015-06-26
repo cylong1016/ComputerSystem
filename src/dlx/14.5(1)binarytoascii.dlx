@@ -1,0 +1,53 @@
+            .DATA	x00003000
+NUMBER :    .SPACE  100
+            .TEXT   
+            .GLOBAL  MAIN
+MAIN :      ADDI    R3, R0, #103		;R3存储需要输出的数(最多三位)
+            ADDI    R2, R0, NUMBER		;R2指向存储单元的地址
+            ADDI    R20, R0, #0		;存储百位
+            ADDI    R21, R0, #0		;存储十位
+            ADDI    R22, R0, #0		;存储个位
+
+		;计算各个位的数
+            SLTI    R1, R3, #100		;R1用来判断
+            BNEZ    R1, BEGIN10
+BEGIN100 :  SUBI    R3, R3, #100
+            ADDI    R20, R20, #1
+            SLTI    R1, R3, #100
+            BNEZ    R1, SAVE100
+            J       BEGIN100
+SAVE100 :   ADDI    R20, R20, x30
+            SB      0(R2), R20
+            J       BEGIN10
+BEGIN10 :   ADDI    R2, R2, #1
+            SLTI    R1, R3, #10
+            BEQZ    R1, LOOP1
+            BEQZ    R20, BEGIN1
+            J       SAVE10
+
+LOOP1 :     SUBI    R3, R3, #10
+            ADDI    R21, R21, #1
+            SLTI    R1, R3, #10
+            BNEZ    R1, SAVE10
+            J       LOOP1
+
+SAVE10 :    ADDI    R21, R21, x30
+            SB      0(R2), R21
+            J       BEGIN1
+BEGIN1 :    ADDI    R2, R2, #1
+            ADDI    R3, R3, x30
+            SB      0(R2), R3
+            LB      R4, -2(R2)
+            SEQI    R1, R4, #0
+            BNEZ    R1, OUTPUT10
+            TRAP    x07
+OUTPUT10 :  LB      R4, -1(R2)
+            SEQI    R1, R20, #0
+            BEQZ    R1, OUTPUT
+            SEQI    R1, R4, #0
+            BNEZ    R1, OUTPUT1
+OUTPUT :    TRAP    x07
+OUTPUT1 :   LB      R4, 0(R2)
+            TRAP    x07
+
+            TRAP    x00
